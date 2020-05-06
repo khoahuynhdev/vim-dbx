@@ -4,6 +4,9 @@ elseif exists("b:current_syntax")
   finish
 endif
 
+let s:save_cpo = &cpo
+set cpo&vim
+
 " Keywords:
 syntax keyword dbmlKeyword Table Enum Indexes Project Tablegroup Note Ref
 syntax keyword dbmlType  blob bool boolean char character date datetime decimal
@@ -27,7 +30,12 @@ syntax match dbmlSettingNull /\v\c(not\s)?null/ contained
 
 
 syntax region dbmlElementBlock start=/\v\{/ end=/\v\}/ fold transparent
-syntax region dbmlSettingBlock start=/\v\[/ end=/\v\]/ transparent contains=dbmlSettingPrimaryKey,dbmlSettingIncrement,dbmlSettingBoolean,dbmlString,dbmlSettingNull
+syntax region dbmlSettingBlock start=/\v\[/ end=/\v\]/ transparent contains=
+  \ dbmlSettingPrimaryKey,
+  \ dbmlSettingIncrement,
+  \ dbmlSettingBoolean,
+  \ dbmlString,
+  \ dbmlSettingNull
 
 
 highlight link dbmlKeyword              Keyword
@@ -44,4 +52,5 @@ highlight link dbmlSettingNull          Boolean
 setlocal commentstring=//\ %s
 setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
+let &cpo = s:save_cpo
 let b:current_syntax="dbml"
